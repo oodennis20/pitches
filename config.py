@@ -4,6 +4,7 @@ import os
 class Config:
     SECRET_KEY='parapon8'
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://clyde:parapon8@localhost/pitches'
+    UPLOADED_PHOTOS_DEST ='app/static/photos'
     @staticmethod
     def init_app(app):
         pass

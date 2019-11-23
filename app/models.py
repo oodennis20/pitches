@@ -14,8 +14,11 @@ class User(UserMixin,db.Model):
     author = db.Column(db.String(250))
     email = db.Column(db.String(250), unique=True, index=True)
     password_hash = db.Column(db.String(250))
-    
-
+    bio = db.Column(db.String(255))
+    profile_pic_path = db.Column(db.String())
+    pitch = db.relationship('Pitches', backref='author', lazy=True)
+    postcomments = db.relationship('CommentVote', backref='author', lazy
+                                   
     @property
     def password(self):
         raise AttributeError('You cannot read the password attribute')
