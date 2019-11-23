@@ -12,9 +12,9 @@ class User(UserMixin,db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     author = db.Column(db.String(250))
-    pitches_id = db.Column(db.Integer, db.ForeignKey('pitches.id'))
-    password_secure = db.Column(db.String(250))
     email = db.Column(db.String(250), unique=True, index=True)
+    password_hash = db.Column(db.String(250))
+    
 
     @property
     def password(self):
@@ -22,10 +22,10 @@ class User(UserMixin,db.Model):
 
     @password.setter
     def password(self, password):
-        self.pass_secure = generate_password_hash(password)
+        self.password_hash = generate_password_hash(password)
 
     def verify_password(self, password):
-        return check_password_hash(self.password_secure, password)
+        return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
         return f'User {self.author}'
@@ -36,17 +36,39 @@ class Pitches(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     category = db.Column(db.String(250))
     pitch = db.Column(db.String(250))
-    time = db.Column(db.DateTime,default=datetime.utcnow)
-    users = db.relationship('User', backref='pitches', lazy="dynamic")
-
+    date = db.Column(db.DateTime(250), default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    comments = db.relationship('CommentVote', backref='category', lazy='dynamic')
+    
     def save_pitch(self):
         db.session.add(self)
         db.session.commit()
         
     @classmethod
-    def get_pitches(cls,cat):
-        pitch = Pitches.query.filter_by(category=cat).all()
+    def get_pitches(cls,cate):
+        pitch = Pitches.query.filter_by(category=cate).all()
         return pitch
     
     def __repr__(self):
-        return f'User {self.name}'
+        return f"Pitches {self.pitch}','{self.date}')"
+
+class CommentVote(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    comment = db.Column(db.String(255))
+    date_posted = db.Column(db.DateTime(250), nullable=False, default=datetime.utcnow)
+    pitches_id = db.Column(db.Integer, db.ForeignKey("pitches.id"), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+
+    def __repr__(self):
+        return f"CommentsVote('{self.comment}', '{self.date_posted}')"
+
+
+
+
+
+
+
+
+
+
+

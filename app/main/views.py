@@ -27,7 +27,7 @@ def new_pitch():
 
 
         # Updated pitchinstance
-        new_pitch = Pitches(category= category,pitch= pitch)
+        new_pitch = Pitches(category= category,pitch= pitch,user_id=current_user.id)
 
         title='New Pitch'
 
@@ -45,6 +45,22 @@ def category(cate):
     # print(category)
     title = f'{cate}'
     return render_template('categories.html',title = title, category = category)
+
+@main.route('/categories/<int:pitches_id>', methods=['GET','POST'])
+def comment(pitches_id):
+    pitches = Pitches.query.get_or_404(pitches_id)
+    form = CommentForm()
+    if form.validate_on_submit():
+        comment = form.comment.data
+        new_comment = Comments(comment=comment, post=post, user_id=current_user.id)
+        db.session.add(new_pitches_comment)
+        db.session.commit()
+    comments = CommentsPitches.query.all()
+    title = 'comments'
+    return render_template('comments.html', title=title, pitches=pitches, pitches_form=form, comments=comments)
+
+
+
 
 
 
