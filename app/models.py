@@ -1,26 +1,38 @@
 from . import db
 
+from werkzeug.security import generate_password_hash, check_password_hash
+
+
 class User(db.Model):
     __tablename__ = 'users'
-    id = db.Column(db.Integer,primary_key = True)
+    id = db.Column(db.Integer, primary_key=True)
     author = db.Column(db.String(250))
-    pitches_id = db.Column(db.Integer,db.ForeignKey('pitches.id'))
-    email = db.Column(db.String(250),unique = True,index = True)
+    pitches_id = db.Column(db.Integer, db.ForeignKey('pitches.id'))
+    password_secure = db.Column(db.String(250))
+    email = db.Column(db.String(250), unique=True, index=True)
+
+    @property
+    def password(self):
+        raise AttributeError('You cannot read the password attribute')
+
+    @password.setter
+    def password(self, password):
+        self.pass_secure = generate_password_hash(password)
+
+    def verify_password(self, password):
+        return check_password_hash(self.pass_secure, password)
 
     def __repr__(self):
-         return f'User {self.username}'
-    
+        return f'User {self.username}'
+
+
 class Pitches(db.Model):
-    __tablename__='pitches'
-    id = db.Column(db.Integer,primary_key = True)
+    __tablename__ = 'pitches'
+    id = db.Column(db.Integer, primary_key=True)
     category = db.Column(db.String(200))
     pitch = db.Column(db.String(200))
     time = db.Column(db.String(200))
-    users = db.relationship('User',backref = 'pitches',lazy="dynamic")
-     
+    users = db.relationship('User', backref='pitches', lazy="dynamic")
+
     def __repr__(self):
         return f'User {self.name}'
-     
-
-
-
