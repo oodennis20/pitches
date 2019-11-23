@@ -36,7 +36,7 @@ class Pitches(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     category = db.Column(db.String(250))
     pitch = db.Column(db.String(250))
-    time = db.Column(db.String(250))
+     time = db.Column(db.DateTime,default=datetime.utcnow)
     users = db.relationship('User', backref='pitches', lazy="dynamic")
 
     def __repr__(self):
