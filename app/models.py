@@ -25,7 +25,7 @@ class User(UserMixin,db.Model):
         self.pass_secure = generate_password_hash(password)
 
     def verify_password(self, password):
-        return check_password_hash(self.pass_secure, password)
+        return check_password_hash(self.password_secure, password)
 
     def __repr__(self):
         return f'User {self.author}'
@@ -36,7 +36,7 @@ class Pitches(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     category = db.Column(db.String(250))
     pitch = db.Column(db.String(250))
-     time = db.Column(db.DateTime,default=datetime.utcnow)
+    time = db.Column(db.DateTime,default=datetime.utcnow)
     users = db.relationship('User', backref='pitches', lazy="dynamic")
 
     def save_pitch(self):
