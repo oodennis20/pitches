@@ -2,7 +2,7 @@ import os
 
 
 class Config:
-    SECRET_KEY=os.environ.get('SECRET_KEY')
+    SECRET_KEY='parapon8'
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://clyde:parapon8@localhost/pitches'
     @staticmethod
     def init_app(app):

@@ -15,9 +15,9 @@ def login():
             login_user(user,login_form.remember.data)
             return redirect(request.args.get('next') or url_for('main.index'))
 
-        flash('Invalid username or Password')
+        flash('Invalid EmailAddress or Password')
 
-    title = "pitches login"
+    title = "Pitches login"
     return render_template('auth/login.html',login_form = login_form,title=title)
     
     
@@ -26,16 +26,13 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         user = User(email = form.email.data,
-        username = form.username.data,
+        author = form.author.data,
         password = form.password.data)
 
         db.session.add(user)
         db.session.commit()
 
-        mail_message("Welcome to Pitch It Up!",
-        "email/welcome_user",
-        user.email,user=user)
-
+        
         title = "New Account"
 
         return redirect(url_for('auth.login'))
