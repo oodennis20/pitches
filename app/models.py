@@ -1,7 +1,11 @@
 from . import db
-
 from werkzeug.security import generate_password_hash, check_password_hash
+from . import login_manager
+from datetime import datetime
 
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -29,9 +33,9 @@ class User(db.Model):
 class Pitches(db.Model):
     __tablename__ = 'pitches'
     id = db.Column(db.Integer, primary_key=True)
-    category = db.Column(db.String(200))
-    pitch = db.Column(db.String(200))
-    time = db.Column(db.String(200))
+    category = db.Column(db.String(250))
+    pitch = db.Column(db.String(250))
+    time = db.Column(db.String(250))
     users = db.relationship('User', backref='pitches', lazy="dynamic")
 
     def __repr__(self):
