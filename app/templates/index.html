@@ -12,19 +12,19 @@
     <button type="button" class="btn btn-outline btn-lg"><a href="../pitch/">Add Pitch</a></button>
     <div class="container">
         <div class="card-columns">
-            {% for pitch in pitches %}
+            {% for category in category %}
 
             <div class="card">
                 <img class="card" src="{{pitch.image}}" alt="Card image cap" size="100px180">
                 <div class="card-body">
-                    <h5 class="card-title">{{pitch.author}}</h5>
-                    <p class="card-text">{{pitch.description}}</p>
+                    <h5 class="card-title">{{category.author}}</h5>
+                    <p class="card-text">{{category.description}}</p>
                     <a href="{{pitch.url}}">
                         <p class="card-text">Click here to make and view comments!</p>
                     </a>
                 </div>
                 <div class="card-footer">
-                    <small class="text-muted">Publish date:{{pitch.time}}</small>
+                    <small class="text-muted">Publish date:{{category.time}}</small>
                 </div>
             </div>
             {% endfor %}

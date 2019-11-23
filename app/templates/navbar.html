@@ -9,27 +9,25 @@
             </button>
             <a class="navbar-brand" href="/">Let The Pitch Out</a>
         </div>
-        <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Coding</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Life</a>
-                </li>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+            <li><a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a></li>
+            <li>
+                <a class="nav-link" href="categories/coding">Coding</a>
+            </li>
+                <li>
+                <a class="nav-link" href="categories/life">Life</a>
+                <li>
+                <a class="nav-link" href="categories/funny">Funny</a>
+            </li>
             </ul>
-            <span class="navbar-text">
-
-            </span>
+           
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user.is_authenticated %}
                 <li style="color:#000000;padding:15px;">{{current_user.author}}</li>
                 <li><a href="{{url_for('auth.logout')}}">Sign out</a></li>
                 {% else %}
-                <li><a href="{{url_for('auth.login')}}">Sign in</a></li>
+                <li style="color:#000000;"><a href="{{url_for('auth.login')}}">Sign in</a></li>
                 {%endif%}
             </ul>
         </div>
