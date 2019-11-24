@@ -13,7 +13,7 @@ class Config:
     MAIL_USERNAME = 'clyde'
     MAIL_PASSWORD = 'parapon8'
     SUBJECT_PREFIX = 'Let The Pitch Out!'
-    SENDER_EMAIL = 'oodennis20@gmail.com'
+    SENDER_EMAIL = 'clyde.bts17@gmail.com'
 
     @staticmethod
     def init_app(app):
