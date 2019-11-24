@@ -3,7 +3,7 @@ from flask import render_template, request, redirect, url_for
 from flask_login import login_required, current_user
 from ..models import Pitches, User
 from . import main
-from .. import db
+from .. import db,photos
 from .forms import PitchForm, CommentForm, UpdateProfile
 
 
@@ -28,8 +28,7 @@ def new_pitch():
         pitch = form.pitch.data
 
         # Updated pitchinstance
-        new_pitch = Pitches(category=category, pitch=pitch,
-                            user_id=current_user.id)
+        new_pitch = Pitches(category=category, pitch=pitch,user_id=current_user.id)
 
         title = 'New Pitch'
 
@@ -79,6 +78,15 @@ def comment(pitches_id):
     title = f'{pitches_id}'
     return render_template('categories.html', title=title, comment=comment)
 
+@main.route('/user/<uname>')
+def profile(uname):
+    user = User.query.filter_by(author = uname).first()
+
+    if user is None:
+        abort(404)
+
+    return render_template("profile/profile.html", user = user)
+
 
 @main.route('/user/<uname>/update', methods=['GET', 'POST'])
 @login_required
@@ -108,5 +116,5 @@ def update_pic(uname):
         path = f'photos/{filename}'
         user.profile_pic_path = path
         db.session.commit()
-     return redirect(url_for('main.profile',uname=uname))
+    return redirect(url_for('main.profile',uname=uname))
 

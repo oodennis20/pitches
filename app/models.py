@@ -16,8 +16,8 @@ class User(UserMixin,db.Model):
     password_hash = db.Column(db.String(250))
     bio = db.Column(db.String(255))
     profile_pic_path = db.Column(db.String())
-    pitch = db.relationship('Pitches', backref='author', lazy=True)
-    postcomments = db.relationship('CommentVote', backref='author', lazy
+    pitch = db.relationship('Pitches', backref='author', lazy='dynamic')
+    postcomments = db.relationship('CommentVote', backref='author', lazy='dynamic')
                                    
     @property
     def password(self):

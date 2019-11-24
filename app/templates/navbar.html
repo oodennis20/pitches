@@ -1,4 +1,4 @@
-<nav class="navbar navbar-inverse" style="background-color: aliceblue;">
+<nav class="navbar navbar-inverse" style="background-color: #e3f2fd;">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -24,11 +24,10 @@
            
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user.is_authenticated %}
-                <li><a href="{{url_for('main.profile',uname=current_user.username)}}">Profile</a></li>
-                <li style="color:#000000;padding:15px;">{{current_user.author}}</li>
+                <li><a href="{{url_for('main.profile',uname=current_user.author)}}">Profile</a></li>
                 <li><a href="{{url_for('auth.logout')}}">Sign out</a></li>
                 {% else %}
-                <li style="color:#000000;"><a href="{{url_for('auth.login')}}">Sign in</a></li>
+                <li><a href="{{url_for('auth.login')}}">Sign in</a></li>
                 {%endif%}
             </ul>
         </div>

@@ -1,0 +1,8 @@
+Hello {{user.author}}
+
+Welcome to Let The Pitch Out!
+
+We have just seen you have signed up for our application and it is our pleasure to welcome you to the big family!!
+Please enjoy the pitches others have posted and of all your favourite pitches and leave comments too.
+
+THANKS!!
