@@ -61,8 +61,8 @@ class Comments(db.Model):
     date_posted = db.Column(db.DateTime(250), default=datetime.utcnow)
     pitches_id = db.Column(db.Integer, db.ForeignKey("pitches.id"))
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    pitches= db.relationship('Pitches', backref='pitch',lazy=True)
-    comments = db.relationship('Comments', backref='author', lazy=True)
+    # pitches= db.relationship('Pitches', backref='pitch',lazy=True)
+    # comments = db.relationship('Comments', backref='author', lazy=True)
     
     def save_comment(self):
         db.session.add(self)

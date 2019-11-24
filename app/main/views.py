@@ -89,6 +89,7 @@ def update_pic(uname):
     return redirect(url_for('main.profile',uname=uname))
 
 @main.route('/comments')
+@login_required
 def comment():
     '''
     function to return the comments
@@ -99,6 +100,7 @@ def comment():
     return render_template('comments.html',comment = comment)
 
 @main.route('/new_comment', methods = ['GET', 'POST'])
+@login_required
 def new_comment():
     form = CommentForm()
 
