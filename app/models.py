@@ -33,15 +33,15 @@ class User(UserMixin,db.Model):
     def __repr__(self):
         return f'User {self.author}'
 
-
 class Pitches(db.Model):
     __tablename__ = 'pitches'
     id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(250))
     category = db.Column(db.String(250))
     pitch = db.Column(db.String(250))
     date = db.Column(db.DateTime(250), default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    comments = db.relationship('Comments', backref='category', lazy='dynamic')
+    comments = db.relationship('Comments', backref='title', lazy='dynamic')
     
     def save_pitch(self):
         db.session.add(self)
@@ -58,10 +58,11 @@ class Pitches(db.Model):
 class Comments(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     comment = db.Column(db.String(255))
-    date_posted = db.Column(db.DateTime(250), nullable=False, default=datetime.utcnow)
-    pitches_id = db.Column(db.Integer, db.ForeignKey("pitches.id"), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
-
+    date_posted = db.Column(db.DateTime(250), default=datetime.utcnow)
+    pitches_id = db.Column(db.Integer, db.ForeignKey("pitches.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    pitches= db.relationship('Pitches', backref='comment',lazy='select')
+    
     def save_comment(self):
         db.session.add(self)
         db.session.commit()

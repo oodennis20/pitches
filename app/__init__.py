@@ -16,7 +16,7 @@ photos = UploadSet('photos',IMAGES)
 mail = Mail()
 
 def create_app(config_name):
-    bootstrap = Bootstrap()
+    
 
     app = Flask(__name__)
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -31,7 +31,7 @@ def create_app(config_name):
     configure_uploads(app,photos)
 
     # Initializing flask extensions
-    bootstrap.init_app(app)
+    Bootstrap(app)
     db.init_app(app)
     login_manager.init_app(app)
     mail.init_app(app)

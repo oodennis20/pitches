@@ -3,12 +3,17 @@
 
 {% block content %}
 <div class="container">
+    <div class="container">
+        <div class="card-columns">
 
-  {{ wtf.quick_form(comment_form) }}
+        </div>
 
+        {% endfor %}
+        {% for comment in comment %}
+        <div class="card-body">
+            <p>{{comment.comment}}</p>
+          </div>
+        {% endfor %}
 
+    </div>
 </div>
-
-
-
-{% endblock %}

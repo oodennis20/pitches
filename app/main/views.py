@@ -1,11 +1,10 @@
 from flask import render_template
 from flask import render_template, request, redirect, url_for
 from flask_login import login_required, current_user
-from ..models import Pitches, User
+from ..models import Pitches, User, Comments
 from . import main
 from .. import db,photos
 from .forms import PitchForm, CommentForm, UpdateProfile
-
 
 @main.route('/')
 def index():
@@ -15,7 +14,6 @@ def index():
     '''
     message = "Hello"
     return render_template('index.html', message=message)
-
 
 @main.route('/pitch/', methods=['GET', 'POST'])
 @login_required
@@ -27,16 +25,19 @@ def new_pitch():
         category = form.category.data
         pitch = form.pitch.data
 
+        title=form.title.data
+        
         # Updated pitchinstance
-        new_pitch = Pitches(category=category, pitch=pitch,user_id=current_user.id)
+        new_pitch = Pitches(title=title,category=category, pitch=pitch,user_id=current_user.id)
 
         title = 'New Pitch'
 
         # save review method
         new_pitch.save_pitch()
+        
+        return redirect(url_for('main.index'))
 
     return render_template('pitch.html', pitch_entry=form)
-
 
 @main.route('/categories/<cate>')
 def category(cate):
@@ -48,36 +49,6 @@ def category(cate):
     title = f'{cate}'
     return render_template('categories.html', title=title, category=category)
 
-
-@main.route('/categories/<pitches_id>', methods=['GET', 'POST'])
-@login_required
-def new_comment():
-
-    pitches = Pitches.query.get_or_404(pitches_id)
-    form = CommentForm()
-
-    if form.validate_on_submit():
-        comment = form.comment.data
-        # Updated pitchinstance
-        new_comment = Comments(comment=comment, post=post, pitches_id=pitches_id, user_id=current_user.id)
-
-        title = 'New comment'
-
-        new_comment.save_comment()
-
-    return render_template('comments.html', comment_form=form)
-
-
-@main.route('/categories/<pitches_id>')
-def comment(pitches_id):
-    '''
-    function to return the comments by pitch id
-    '''
-    comment = Comments.get_comments(pitches_id)
-    # print(category)
-    title = f'{pitches_id}'
-    return render_template('categories.html', title=title, comment=comment)
-
 @main.route('/user/<uname>')
 def profile(uname):
     user = User.query.filter_by(author = uname).first()
@@ -86,7 +57,6 @@ def profile(uname):
         abort(404)
 
     return render_template("profile/profile.html", user = user)
-
 
 @main.route('/user/<uname>/update', methods=['GET', 'POST'])
 @login_required
@@ -118,3 +88,25 @@ def update_pic(uname):
         db.session.commit()
     return redirect(url_for('main.profile',uname=uname))
 
+@main.route('/comments')
+def comment():
+    '''
+    function to return the comments
+    '''
+    comment =Comments.get_comment(id)
+    print(comment)
+    title = 'comments'
+    return render_template('comments.html',comment = comment)
+
+@main.route('/new_comment', methods = ['GET', 'POST'])
+def new_comment():
+    form = CommentForm()
+
+    if form.validate_on_submit():
+        comment = form.comment.data
+
+        new_comment = Comments(comment=comment)
+        new_comment.save_comment()
+
+    title = 'New Comment'
+    return render_template('new_comment.html', title = title, comment_form = form)
