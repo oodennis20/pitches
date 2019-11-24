@@ -59,13 +59,13 @@ def new_comment():
     if form.validate_on_submit():
         comment = form.comment.data
         # Updated pitchinstance
-        new_comment = CommentVote(comment=comment, post=post, pitches_id=pitches_id, user_id=current_user.id)
+        new_comment = Comments(comment=comment, post=post, pitches_id=pitches_id, user_id=current_user.id)
 
         title = 'New comment'
 
         new_comment.save_comment()
 
-    return render_template('categories.html', comment_form=form)
+    return render_template('comments.html', comment_form=form)
 
 
 @main.route('/categories/<pitches_id>')
@@ -73,7 +73,7 @@ def comment(pitches_id):
     '''
     function to return the comments by pitch id
     '''
-    comment = CommentVote.get_comments(pitches_id)
+    comment = Comments.get_comments(pitches_id)
     # print(category)
     title = f'{pitches_id}'
     return render_template('categories.html', title=title, comment=comment)
