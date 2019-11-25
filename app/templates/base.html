@@ -5,3 +5,22 @@
     {% include 'navbar.html' %}
 
 {% endblock %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+ <head>
+   <meta charset="utf-8">
+   {% if title %}
+   <title>{{ title }}</title>
+   {% else %}
+   <title>Let The Pitch Out!! </title>
+   {% endif %}
+ </head>
+ <body>
+
+   {% block content %}
+
+   {% endblock %}
+
+ </body>
+</html>

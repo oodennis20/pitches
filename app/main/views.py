@@ -13,6 +13,7 @@ def index():
     return
     '''
     message = "Hello"
+    title= 'Let The Pitch Out!'
     return render_template('index.html', message=message)
 
 @main.route('/pitch/', methods=['GET', 'POST'])
@@ -52,11 +53,13 @@ def category(cate):
 @main.route('/user/<uname>')
 def profile(uname):
     user = User.query.filter_by(author = uname).first()
-
+    pitches= Pitches.query.filter_by(user_id=current_user.id).first()
+    pitchdetails= Pitches.get_pitches_user(current_user.id)
+    
     if user is None:
         abort(404)
 
-    return render_template("profile/profile.html", user = user)
+    return render_template("profile/profile.html",pitches=pitches, user = user,pitchdetails=pitchdetails)
 
 @main.route('/user/<uname>/update', methods=['GET', 'POST'])
 @login_required
@@ -88,9 +91,9 @@ def update_pic(uname):
         db.session.commit()
     return redirect(url_for('main.profile',uname=uname))
 
-@main.route('/comments')
+@main.route('/comments/<id>',methods=['GET','POST'])
 @login_required
-def comment():
+def comment(id):
     '''
     function to return the comments
     '''
@@ -99,16 +102,18 @@ def comment():
     title = 'comments'
     return render_template('comments.html',comment = comment)
 
-@main.route('/new_comment', methods = ['GET', 'POST'])
+@main.route('/new_comment/<id>', methods = ['GET', 'POST'])
 @login_required
-def new_comment():
+def new_comment(id):
     form = CommentForm()
-
+    pitch=Pitches.query.filter_by(id=id).first()
+    cate=pitch.category
     if form.validate_on_submit():
         comment = form.comment.data
 
-        new_comment = Comments(comment=comment)
+        new_comment = Comments(comment=comment,pitches_id=id,user_id=current_user.id)
         new_comment.save_comment()
+        return redirect(url_for('main.category',cate=cate))
 
     title = 'New Comment'
     return render_template('new_comment.html', title = title, comment_form = form)

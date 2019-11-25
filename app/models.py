@@ -52,6 +52,11 @@ class Pitches(db.Model):
         pitch = Pitches.query.filter_by(category=cate).all()
         return pitch
     
+    @classmethod
+    def get_pitches_user(cls,user_id):
+        pitch = Pitches.query.filter_by(user_id=user_id).all()
+        return pitch
+    
     def __repr__(self):
         return f"Pitches {self.pitch}','{self.date}')"
 
@@ -61,8 +66,6 @@ class Comments(db.Model):
     date_posted = db.Column(db.DateTime(250), default=datetime.utcnow)
     pitches_id = db.Column(db.Integer, db.ForeignKey("pitches.id"))
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    # pitches= db.relationship('Pitches', backref='pitch',lazy=True)
-    # comments = db.relationship('Comments', backref='author', lazy=True)
     
     def save_comment(self):
         db.session.add(self)
@@ -70,7 +73,7 @@ class Comments(db.Model):
 
     @classmethod
     def get_comment(cls,id):
-        comments = Comment.query.filter_by(pitches_id=id).all()
+        comments = Comments.query.filter_by(pitches_id=id).all()
         return comments
     
     def __repr__(self):

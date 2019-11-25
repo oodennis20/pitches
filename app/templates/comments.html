@@ -1,19 +1,23 @@
 {% extends 'base.html'%}
 {% import "bootstrap/wtf.html" as wtf %}
-
 {% block content %}
-<div class="container">
-    <div class="container">
-        <div class="card-columns">
 
-        </div>
+<br>
+<br>
 
-        {% endfor %}
-        {% for comment in comment %}
-        <div class="card-body">
-            <p>{{comment.comment}}</p>
-          </div>
-        {% endfor %}
-
+<body style="background-color: aliceblue;">
+    {% for comm in comment %}
+    <div class="card border-info mb-3" style="max-width: 35rem;border-style: solid; border-color: rgb(79, 188, 196); border-width:thin; text-align: center; margin-left: 35%">
+        <div class="card-header" style="border-style: solid;border-width:thin; border-color: rgb(79, 188, 196);">{{comm.author}}</div>
+            <div class="card-body text-info">
+                <p class="card-text">{{comm.comment}}.</p>
+            </div>
+            <div class="card-footer bg-transparent border-success"><small class="text-muted">Publish date:{{comm.date_posted.strftime('%Y-%m-%d')}}</small>
+            </div>
     </div>
-</div>
+    <br>
+
+    {% endfor %}
+
+    {% endblock %}
+</body>

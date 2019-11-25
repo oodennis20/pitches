@@ -1,41 +1,44 @@
 {% extends 'base.html'%}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block styles%} {{ super() }}
-<link rel="stylesheet" href="{{url_for('static',filename='css/categories.css')}}">{% endblock %}
+<link rel="stylesheet" href="{{url_for('static',filename='css/categories.css')}}"> {% endblock %}
+<br>
+<br>
 <br>
 <br>
 
-<body>
+<body style="background-color: aliceblue;">
     {% block content %}
     <br>
     <br>
-
-    <div class="container">
+    <button type="button" class="btn btn-outline-primary" style="margin-left: 29.4%;"><a href="../pitch/">Add Pitch</a></button>
+    <div class="container" style="width:400px; text-align: center;">
         <div class="card-columns">
-
             {% for category in category %}
 
-            <div class="card">
-                <div class="card-header">
-                    {{category.author}}
+            <div class="card bg-transparent border-success" style="border-style: solid; border-color: rgb(79, 188, 196); border-width:thin;">
+                <div class="card-header bg-transparent border-success">
+                    {{category.title}}
                 </div>
-                <div class="card-body">
-                    <h5 class="card-title">{{category.title}}</h5>
-                    <p class="card-text">{{category.pitch}}</p>
+                <div class="card-body text">
+                    <blockquote class="blockquote mb-0">
+                        <p>{{category.pitch}}</p><br>
+                        <footer class="blockquote-footer bg-transparent border-success">{{category.author}}
+                            <br><cite title="Source Title">Publish date: {{category.date.strftime('%Y-%m-%d')}}</cite>
+                        </footer>
+                    </blockquote>
                 </div>
-                <div class="card-footer">
-                    <small class="text-muted">Publish date:{{category.date}}</small>
+                <div class="card-footer bg-transparent border-success">
+                    <button type="button" class="btn btn-outline-success btn-sm"><a href="/new_comment/{{category.id}}">Comment</a></button> <button type="button" class="btn btn-outline-success btn-sm"><a href="/comments/{{category.id}}">View comments</a></button>
                 </div>
-                <button type="button" class="btn btn-outline-primary"><a href="/new_comment">Comment</a></button>
-                {% endfor %}
-                {% for comment in comment %}
-                <div class="card-body">
-                    <p>{{comment.comment}}</p>
+                    </button>
                 </div>
-                {% endfor %}
             </div>
+            <br>
+
+            {% endfor %}
 
         </div>
-    </div>
-    {% endblock %}
+        
+        {% endblock %}
 </body>
